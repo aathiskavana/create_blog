@@ -1,0 +1,54 @@
+@extends('layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">Daftar Spare Part</div>
+
+                    <div class="card-body">
+                        <form method="GET" action="{{ route('spareparts.index') }}">
+                            <div class="form-group">
+                                <input type="text" name="search" class="form-control" placeholder="Cari spare part">
+                            </div>
+                        </form>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nama</th>
+                                    <th>Kode</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($spareparts as $sparepart)
+                                    <tr>
+                                        <td>{{ $sparepart->nama }}</td>
+                                        <td>{{ $sparepart->kode }}</td>
+                                        <td>{{ $sparepart->harga }}</td>
+                                        <td>{{ $sparepart->stok }}</td>
+                                        <td>
+                                            <a href="{{ route('spareparts.edit', $sparepart->id) }}" class="btn btn-primary">Edit</a>
+                                            <form action="{{ route('spareparts.destroy', $sparepart->id) }}" method="POST" style="display: inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                            <a href="{{ route('spareparts.show', $sparepart->id) }}" class="btn btn-info">Detail</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        {{ $spareparts->links() }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
